@@ -13,12 +13,18 @@ extra_payment = 1000
 
 
 while principal > 0:
+
     if months >= extra_payment_start_month and months <= extra_payment_end_month:
         principal -= extra_payment
         total_paid+=extra_payment
     principal = principal * (1+rate/12) - payment
     total_paid = total_paid + payment
     months+=1
-    print(f'{months} {total_paid} {round(principal,2)}')
+    if principal < 0:
+        
+        total_paid+=principal
+        principal = 0
+
+    print(f'{months} {round(total_paid,2)} {round(principal,2)}')
 
 print(f'Number of months required: {months}. Total paid: {round(total_paid,2)}' )
