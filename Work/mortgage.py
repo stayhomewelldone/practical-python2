@@ -24,7 +24,7 @@ while principal > 0:
         
         total_paid+=principal
         principal = 0
-
-    print(f'{months} {round(total_paid,2)} {round(principal,2)}')
+    a = f'{months:>10d} {total_paid:10.2f} {principal:10.2f}'
+    print(a)
 
 print(f'Number of months required: {months}. Total paid: {round(total_paid,2)}' )
