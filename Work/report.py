@@ -3,17 +3,18 @@
 # Exercise 2.4
 import csv
 import sys
-portfolio = []
 prices = {}
 
 def read_portfolio(filename):
     'Reads the content of a file'
+    portfolio = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)
         for row in rows:
             record = dict(zip(headers, row))
             portfolio.append(record)
+    print(portfolio)
     return portfolio
 
 def read_prices(file):
