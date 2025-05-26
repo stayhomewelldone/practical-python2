@@ -34,7 +34,15 @@ def calculate_portfolio(port, prices):
     for stocks in port:
         portvalue += stocks['shares'] * stocks['price']
         pricevalue += float(prices[stocks['name']]) * stocks['shares']
-    return portvalue, pricevalue
+    return (pricevalue - portvalue)
+
+def make_report(portfile,pricefile):
+    report = []
+    'Make a report containing tuples'
+    for stocks in portfile:
+        report.append((stocks['name'], stocks['shares'], float(pricefile[stocks['name']]), float(stocks['price']) - float(pricefile[stocks['name']])))
+
+    return report
 
 if len(sys.argv) == 3:
     
@@ -45,6 +53,4 @@ else:
     pricesfile = 'Data/prices.csv'
 portfolio = read_portfolio(portfile)
 prices = read_prices(pricesfile)
-old_value, pricevalue = calculate_portfolio(portfolio, prices)
-current_value = pricevalue - old_value
-print(current_value)
+print(calculate_portfolio(portfolio, prices))
