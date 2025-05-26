@@ -12,8 +12,8 @@ def read_portfolio(filename):
         rows = csv.reader(f)
         headers = next(rows)
         for row in rows:
-            holding = {headers[0]: row[0], headers[1]:int(row[1]), headers[2]:float(row[2])}
-            portfolio.append(holding)
+            record = dict(zip(headers, row))
+            portfolio.append(record)
     return portfolio
 
 def read_prices(file):
@@ -32,15 +32,15 @@ def calculate_portfolio(port, prices):
     portvalue = 0.0
     pricevalue = 0.0
     for stocks in port:
-        portvalue += stocks['shares'] * stocks['price']
-        pricevalue += float(prices[stocks['name']]) * stocks['shares']
+        portvalue += int(stocks['shares']) * float(stocks['price'])
+        pricevalue += float(prices[stocks['name']]) * int(stocks['shares'])
     return (pricevalue - portvalue)
 
 def make_report(portfile,pricefile):
     report = []
     'Make a report containing tuples'
     for stocks in portfile:
-        report.append((stocks['name'], stocks['shares'], float(pricefile[stocks['name']]), float(stocks['price']) - float(pricefile[stocks['name']])))
+        report.append((stocks['name'], int(stocks['shares']), float(pricefile[stocks['name']]), float(stocks['price']) - float(pricefile[stocks['name']])))
 
     return report
 
