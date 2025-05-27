@@ -55,6 +55,15 @@ def print_report(report):
     for name, shares, price, change in report:
         print(f'{name:>10s} {shares:>10d} {'$'+str(price):>10s} {change:>10.2f}')
 
+def portfolio_report(portfolio_filename, prices_filename):
+
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    print(f'Current value of the portfolio is: {calculate_portfolio(portfolio, prices)}' )
+    report = make_report(portfolio,prices)
+    print_report(report)
+
+
 if len(sys.argv) == 3:
     
     portfile = sys.argv[1]
@@ -62,9 +71,7 @@ if len(sys.argv) == 3:
 else:
     portfile = 'Data/portfolio.csv'
     pricesfile = 'Data/prices.csv'
-portfolio = read_portfolio(portfile)
-prices = read_prices(pricesfile)
-print(f'Current value of the portfolio is: {calculate_portfolio(portfolio, prices)}' )
-report = make_report(portfolio,prices)
-print_report(report)
+
+portfolio_report(portfile, pricesfile)
+
 
