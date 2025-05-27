@@ -2,7 +2,7 @@
 #
 # Exercise 3.3
 import csv
-def parse_csv(filename, select =None, types=[str, int, float], has_headers=True, delimiter=','):
+def parse_csv(filename, select =None, types=[str, int, float], has_headers=True, delimiter=',',silence_errors=False ):
     '''
     Parse a CSV file into a list of records
     '''
@@ -36,7 +36,8 @@ def parse_csv(filename, select =None, types=[str, int, float], has_headers=True,
                     record = dict(zip(headers,row))
                 records.append(record)
             except ValueError as e:
-                print(f'Row {rowno}: Couldn\'t convert {row}')
-                print(f'Row {rowno}: {e} ')
+                if silence_errors:
+                    print(f'Row {rowno}: Couldn\'t convert {row}')
+                    print(f'Row {rowno}: {e} ')
 
     return records
