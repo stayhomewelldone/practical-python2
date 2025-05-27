@@ -2,12 +2,12 @@
 #
 # Exercise 3.3
 import csv
-def parse_csv(filename, select =None, types=[str, int, float], has_headers=True):
+def parse_csv(filename, select =None, types=[str, int, float], has_headers=True, delimiter=','):
     '''
     Parse a CSV file into a list of records
     '''
     with open(filename) as f:
-        rows = csv.reader(f)
+        rows = csv.reader(f, delimiter=delimiter)
         # Read the file headers (if any)
         headers = next(rows) if has_headers else []
 
@@ -29,7 +29,7 @@ def parse_csv(filename, select =None, types=[str, int, float], has_headers=True)
             if types:
                 row = [func(val) for func, val in zip(types, row)]
                 record = tuple(row)
-            if not types:    
+            if headers:    
                 record = dict(zip(headers,row))
             records.append(record)
 
