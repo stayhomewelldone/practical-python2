@@ -5,7 +5,10 @@ import csv
 import sys
 
 def read_portfolio(filename):
-    'Reads the content of a file'
+    '''
+    Read a stock portfolio file into a list of dictionaries with keys
+    name, shares, and price.
+    '''    
     portfolio = []
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
@@ -13,7 +16,6 @@ def read_portfolio(filename):
         for row in rows:
             record = dict(zip(headers, row))
             portfolio.append(record)
-    print(portfolio)
     return portfolio
 
 def read_prices(file):
@@ -46,6 +48,13 @@ def make_report(portfile,pricefile):
 
     return report
 
+def print_report(report):
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('_' * 10 + ' ')*len(headers) )
+    for name, shares, price, change in report:
+        print(f'{name:>10s} {shares:>10d} {'$'+str(price):>10s} {change:>10.2f}')
+
 if len(sys.argv) == 3:
     
     portfile = sys.argv[1]
@@ -55,11 +64,7 @@ else:
     pricesfile = 'Data/prices.csv'
 portfolio = read_portfolio(portfile)
 prices = read_prices(pricesfile)
-print(calculate_portfolio(portfolio, prices))
+print(f'Current value of the portfolio is: {calculate_portfolio(portfolio, prices)}' )
 report = make_report(portfolio,prices)
-headers = ('Name', 'Shares', 'Price', 'Change')
-print('%10s %10s %10s %10s' % headers)
-print(('_' * 10 + ' ')*len(headers) )
-for name, shares, price, change in report:
-    print(f'{name:>10s} {shares:>10d} {'$'+str(price):>10s} {change:>10.2f}')
-headers = ('Name', 'Shares', 'Price', 'Change')
+print_report(report)
+
