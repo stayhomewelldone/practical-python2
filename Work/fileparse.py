@@ -6,6 +6,8 @@ def parse_csv(filename, select =None, types=[str, int, float], has_headers=True,
     '''
     Parse a CSV file into a list of records
     '''
+    if select and not has_headers:
+        raise RuntimeError('select argument requires column headers')
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
         # Read the file headers (if any)
@@ -20,17 +22,21 @@ def parse_csv(filename, select =None, types=[str, int, float], has_headers=True,
             indices = []
                     
         records =[]
-        for row in rows:
-            if not row:
-                continue  # Skip rows with no data
-            # Filter the row if specifc columns were selected
-            if indices: 
-                row = [ row[index] for index in indices]
-            if types:
-                row = [func(val) for func, val in zip(types, row)]
-                record = tuple(row)
-            if headers:    
-                record = dict(zip(headers,row))
-            records.append(record)
+        for rowno,row in enumerate(rows, start=1):
+            try:
+                if not row:
+                    continue  # Skip rows with no data
+                # Filter the row if specifc columns were selected
+                if indices: 
+                    row = [ row[index] for index in indices]
+                if types:
+                    row = [func(val) for func, val in zip(types, row)]
+                    record = tuple(row)
+                if headers:    
+                    record = dict(zip(headers,row))
+                records.append(record)
+            except ValueError as e:
+                print(f'Row {rowno}: Couldn\'t convert {row}')
+                print(f'Row {rowno}: {e} ')
 
     return records
