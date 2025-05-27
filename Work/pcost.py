@@ -3,19 +3,17 @@
 # Exercise 1.27
 import csv
 import sys
+import report
 def portfolio_cost(filename):
     'Calculates the whole value of the portfolio'
     total_cost = 0
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for rowno, row in enumerate(rows, start=1):
-            record = dict(zip(headers,row))
-            try:
-                total_cost += int(record['shares']) * float(record['price'])
-            except ValueError:
-                print(f'Row {rowno}: Bad row: {row}')
-        return float(total_cost)
+    rows = report.read_portfolio(filename)
+    for rowno, row in enumerate(rows):
+        try:
+            total_cost += int(row['shares']) * float(row['price'])
+        except ValueError:
+            print(f'Row {rowno}: Bad row: {row}')
+    return float(total_cost)
 
 
 if len(sys.argv) == 2:
