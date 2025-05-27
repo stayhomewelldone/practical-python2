@@ -2,7 +2,7 @@
 #
 # Exercise 3.3
 import csv
-def parse_csv(filename):
+def parse_csv(filename, select =None):
     '''
     Parse a CSV file into a list of records
     '''
@@ -11,10 +11,23 @@ def parse_csv(filename):
 
         # Read the file headers
         headers = next(rows)
+
+        # If a column selector was given, find indices of the specified columns.
+        #  Also narrow the set of headers used fot the resulting dictionaries. 
+        if select:
+            indices = [headers.index(colname) for colname in select]
+            headers = select
+        else:
+            indices = []
+                    
         records =[]
         for row in rows:
             if not row:
                 continue  # Skip rows with no data
+            # Filter the row if specifc columns were selected
+            if indices: 
+                row = [ row[index] for index in indices]
+            
             record = dict(zip(headers,row))
             records.append(record)
     
