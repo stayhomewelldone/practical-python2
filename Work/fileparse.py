@@ -31,13 +31,15 @@ def parse_csv(filename, select =None, types=[str, int, float], has_headers=True,
                     row = [ row[index] for index in indices]
                 if types:
                     row = [func(val) for func, val in zip(types, row)]
-                    record = tuple(row)
                 if headers:    
                     record = dict(zip(headers,row))
+                else:
+                    record = tuple(row)
+
                 records.append(record)
             except ValueError as e:
                 if silence_errors:
                     print(f'Row {rowno}: Couldn\'t convert {row}')
                     print(f'Row {rowno}: {e} ')
-
+                continue
     return records

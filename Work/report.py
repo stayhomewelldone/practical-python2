@@ -3,32 +3,22 @@
 # Exercise 2.4
 import csv
 import sys
+from fileparse import parse_csv 
 
 def read_portfolio(filename):
     '''
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''    
-    portfolio = []
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for row in rows:
-            record = dict(zip(headers, row))
-            portfolio.append(record)
+    portfolio = parse_csv(filename)
+    
     return portfolio
 
 def read_prices(file):
     'Reads the prices of a file'
-    prices = {}
-
-    with open(file, 'r') as f:
-        rows = csv.reader(f)
-        try:
-            for number, row in enumerate(rows):
-                prices[row[0]] = row[1]
-        except IndexError:
-            print('Indexerror on line',number)
+    prices = dict(parse_csv(file, types=[str, float], has_headers=False))
+    print(prices)
+    
     return prices
 
 def calculate_portfolio(port, prices):
