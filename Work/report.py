@@ -3,7 +3,6 @@
 # Exercise 2.4
 import csv
 import sys
-prices = {}
 
 def read_portfolio(filename):
     'Reads the content of a file'
@@ -19,6 +18,8 @@ def read_portfolio(filename):
 
 def read_prices(file):
     'Reads the prices of a file'
+    prices = {}
+
     with open(file, 'r') as f:
         rows = csv.reader(f)
         try:
