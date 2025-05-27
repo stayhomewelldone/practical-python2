@@ -14,12 +14,16 @@ def portfolio_cost(filename):
         except ValueError:
             print(f'Row {rowno}: Bad row: {row}')
     return float(total_cost)
+def main(args):
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+    else:
+        filename = 'Data/portfolio.csv'
+    cost = portfolio_cost(filename)
+    print(f'Total cost {cost}')
+    
+if __name__ == '__main__':
+    main(sys.argv)
 
 
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'Data/portfolio.csv'
-cost = portfolio_cost(filename)
-print(f'Total cost {cost}')
 
