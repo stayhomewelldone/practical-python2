@@ -52,16 +52,20 @@ def portfolio_report(portfolio_filename, prices_filename):
     print(f'Current value of the portfolio is: {calculate_portfolio(portfolio, prices)}' )
     report = make_report(portfolio,prices)
     print_report(report)
-
-
-if len(sys.argv) == 3:
+def main(args):
+    if len(args) == 3:
     
-    portfile = sys.argv[1]
-    pricesfile = sys.argv[2]
-else:
-    portfile = 'Data/portfolio.csv'
-    pricesfile = 'Data/prices.csv'
+        portfile = args[1]
+        pricesfile = args[2]
+    else:
+        portfile = 'Data/portfolio.csv'
+        pricesfile = 'Data/prices.csv'
+    portfolio_report(portfile, pricesfile)
 
-portfolio_report(portfile, pricesfile)
+
+
+if __name__ == '__main__':
+    main(sys.argv)
+    
 
 
